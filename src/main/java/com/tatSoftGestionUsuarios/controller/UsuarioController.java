@@ -1,11 +1,14 @@
 package com.tatSoftGestionUsuarios.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
 import com.tatSoftGestionUsuarios.service.UsuarioService;
+import com.tatSoftGestionUsuarios.utils.UsuarioRespuestaDTO;
 
 import jakarta.validation.Valid;
 
@@ -40,6 +44,19 @@ public class UsuarioController {
         ));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+	
+    @GetMapping
+    public ResponseEntity<?> obtenerTodos() {
+        try {
+            List<UsuarioRespuestaDTO> usuarios = usuarioService.obtenerTodos();
+            if (usuarios.isEmpty()) {
+                return ResponseEntity.ok(Collections.singletonMap("mensaje", "No hay usuarios registrados."));
+            }
+            return ResponseEntity.ok(usuarios);
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al obtener los usuarios."); // Se manejará en GlobalExceptionHandler
+        }
     }
 
 }

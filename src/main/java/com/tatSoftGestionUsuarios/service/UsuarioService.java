@@ -1,5 +1,8 @@
 package com.tatSoftGestionUsuarios.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
 import com.tatSoftGestionUsuarios.repository.UsuarioRepository;
+import com.tatSoftGestionUsuarios.utils.UsuarioRespuestaDTO;
 
 @Service
 public class UsuarioService {
@@ -40,5 +44,12 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
-
+    
+    // Metodo para listar todos los usuarios
+    public List<UsuarioRespuestaDTO> obtenerTodos() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream()
+                .map(UsuarioRespuestaDTO::new)
+                .collect(Collectors.toList());
+    }
 }
