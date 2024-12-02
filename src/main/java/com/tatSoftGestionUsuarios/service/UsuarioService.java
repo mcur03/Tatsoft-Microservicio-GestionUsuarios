@@ -87,4 +87,10 @@ public class UsuarioService {
 
         usuarioRepository.delete(usuario);
     }
+    
+	public UsuarioRespuestaDTO findByCedula(String cedula) {
+		Usuario usuario = usuarioRepository.findByCedula(cedula)
+                .orElseThrow(() -> new RuntimeException("Usuario con cedula " + cedula + " no encontrado"));
+        return new UsuarioRespuestaDTO(usuario);
+	}
 }

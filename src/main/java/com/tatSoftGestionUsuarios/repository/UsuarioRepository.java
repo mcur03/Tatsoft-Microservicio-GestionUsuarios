@@ -9,7 +9,7 @@ import com.tatSoftGestionUsuarios.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
 	 Optional<Usuario> findByCedula(String cedula);
-	 Optional<Usuario> findByCorreo(String cedula);
+	 Optional<Usuario> findByCorreo(String correo);
 	 Optional<Usuario> findById(Integer id_usuario);
 	
 }

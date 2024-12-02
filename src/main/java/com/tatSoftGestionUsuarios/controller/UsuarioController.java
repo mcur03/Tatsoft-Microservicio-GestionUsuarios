@@ -97,4 +97,18 @@ public class UsuarioController {
             throw new RuntimeException(ex.getMessage());
         }
     }
+    
+    // Endpoint para la peticion del microservicio autenticacion
+    @GetMapping("/cedula/{cedula}")
+    public ResponseEntity<?> obtenerPorCedula(@PathVariable String cedula) {
+        try {
+            UsuarioRespuestaDTO usuario = usuarioService.findByCedula(cedula);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+            }
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
 }

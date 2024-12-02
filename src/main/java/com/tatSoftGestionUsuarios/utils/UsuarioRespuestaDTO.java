@@ -11,6 +11,7 @@ public class UsuarioRespuestaDTO {
     private String celular;
     private String correo;
     private String rol;
+    private String contraseña;
 
     public UsuarioRespuestaDTO(Usuario usuario) {
         this.cedula = usuario.getCedula();
@@ -18,5 +19,6 @@ public class UsuarioRespuestaDTO {
         this.celular = usuario.getCelular();
         this.correo = usuario.getCorreo();
         this.rol = usuario.getRol().name();
+        this.contraseña = usuario.getContraseña();
     }
 }
