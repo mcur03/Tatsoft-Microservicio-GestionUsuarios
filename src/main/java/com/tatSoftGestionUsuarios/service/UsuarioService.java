@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
+import com.tatSoftGestionUsuarios.model.Usuario.Rol;
 import com.tatSoftGestionUsuarios.repository.UsuarioRepository;
 import com.tatSoftGestionUsuarios.utils.UsuarioRespuestaDTO;
 
@@ -58,5 +59,24 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
         return new UsuarioRespuestaDTO(usuario);
+    }
+    
+    //Metodo para actualiza un usuario
+    public UsuarioRespuestaDTO actualizarUsuario(Integer id, UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
+
+        // Actualizar los campos permitidos
+        usuarioExistente.setNombreCompleto(usuarioDTO.getNombreCompleto());
+        usuarioExistente.setCelular(usuarioDTO.getCelular());
+        usuarioExistente.setCorreo(usuarioDTO.getCorreo());
+        usuarioExistente.setContraseña(usuarioDTO.getContraseña());
+        usuarioExistente.setRol(Rol.valueOf(usuarioDTO.getRol().toUpperCase()));
+
+        // Guardar cambios en la base de datos
+        Usuario usuarioActualizado = usuarioRepository.save(usuarioExistente);
+
+        // Devolver los datos en forma de DTO
+        return new UsuarioRespuestaDTO(usuarioActualizado);
     }
 }

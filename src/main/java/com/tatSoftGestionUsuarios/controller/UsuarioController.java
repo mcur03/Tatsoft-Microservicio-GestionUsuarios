@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,6 +68,16 @@ public class UsuarioController {
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException ex) {
             // Lanzar la excepción para que sea manejada por el GlobalExceptionHandler
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
+        try {
+            UsuarioRespuestaDTO usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
+            return ResponseEntity.ok(usuarioActualizado);
+        } catch (RuntimeException ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
