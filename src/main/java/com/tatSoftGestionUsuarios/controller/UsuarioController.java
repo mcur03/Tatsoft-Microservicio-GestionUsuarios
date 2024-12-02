@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,5 +59,15 @@ public class UsuarioController {
             throw new RuntimeException("Error al obtener los usuarios."); // Se manejará en GlobalExceptionHandler
         }
     }
-
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
+        try {
+            UsuarioRespuestaDTO usuario = usuarioService.obtenerPorId(id);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException ex) {
+            // Lanzar la excepción para que sea manejada por el GlobalExceptionHandler
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
 }

@@ -52,4 +52,11 @@ public class UsuarioService {
                 .map(UsuarioRespuestaDTO::new)
                 .collect(Collectors.toList());
     }
+    
+    // Metodo para buscar usuario por id
+    public UsuarioRespuestaDTO obtenerPorId(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
+        return new UsuarioRespuestaDTO(usuario);
+    }
 }
