@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	// Endpoint para crear un usuario
 	@PostMapping
 	public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
         Usuario usuario = usuarioService.crearUsuario(usuarioDto);
@@ -48,6 +50,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 	
+	// Endpoint para obtener todo los usuarios
     @GetMapping
     public ResponseEntity<?> obtenerTodos() {
         try {
@@ -61,6 +64,7 @@ public class UsuarioController {
         }
     }
     
+ // Endpoint para buscar usuario por id
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
         try {
@@ -72,11 +76,23 @@ public class UsuarioController {
         }
     }
     
+ // Endpoint para actualizar un usuario
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
         try {
             UsuarioRespuestaDTO usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
             return ResponseEntity.ok(usuarioActualizado);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+    
+    // Endpoint para eliminar un usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id) {
+        try {
+            usuarioService.eliminarUsuario(id);
+            return ResponseEntity.ok(Map.of("mensaje", "Usuario con ID " + id + " eliminado exitosamente"));
         } catch (RuntimeException ex) {
             throw new RuntimeException(ex.getMessage());
         }

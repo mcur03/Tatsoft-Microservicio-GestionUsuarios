@@ -79,4 +79,12 @@ public class UsuarioService {
         // Devolver los datos en forma de DTO
         return new UsuarioRespuestaDTO(usuarioActualizado);
     }
+    
+    // Método para eliminar un usuario
+    public void eliminarUsuario(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
+
+        usuarioRepository.delete(usuario);
+    }
 }
