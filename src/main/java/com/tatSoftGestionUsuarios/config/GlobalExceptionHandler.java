@@ -8,16 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.access.AccessDeniedException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> manejarExcepciones(IllegalArgumentException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
-        return ResponseEntity.badRequest().body(response);
-    }
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<?> manejarAccessDenied(AccessDeniedException ex) {
+	    Map<String, String> response = new HashMap<>();
+	    response.put("error", "Acceso denegado");
+	    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+	}
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> manejarValidaciones(MethodArgumentNotValidException ex) {

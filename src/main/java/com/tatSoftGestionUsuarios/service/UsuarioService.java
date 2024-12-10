@@ -69,8 +69,15 @@ public class UsuarioService {
         // Actualizar los campos permitidos
         usuarioExistente.setNombreCompleto(usuarioDTO.getNombreCompleto());
         usuarioExistente.setCelular(usuarioDTO.getCelular());
+        // Validar si el correo ya está en uso por otro usuario
+        usuarioRepository.findByCorreo(usuarioDTO.getCorreo())
+                .filter(usuario -> !usuario.getIdUsuario().equals(id))
+                .ifPresent(u -> {
+                    throw new RuntimeException("El correo ya está registrado con otro usuario.");
+                });
         usuarioExistente.setCorreo(usuarioDTO.getCorreo());
-        usuarioExistente.setContraseña(usuarioDTO.getContraseña());
+
+        usuarioExistente.setContraseña(passwordEncoder.encode(usuarioDTO.getContraseña()));
         usuarioExistente.setRol(Rol.valueOf(usuarioDTO.getRol().toUpperCase()));
 
         // Guardar cambios en la base de datos

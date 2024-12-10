@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	
 	// Endpoint para crear un usuario
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping
 	public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
         Usuario usuario = usuarioService.crearUsuario(usuarioDto);
@@ -51,6 +53,7 @@ public class UsuarioController {
     }
 	
 	// Endpoint para obtener todo los usuarios
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping
     public ResponseEntity<?> obtenerTodos() {
         try {
@@ -65,6 +68,7 @@ public class UsuarioController {
     }
     
  // Endpoint para buscar usuario por id
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
         try {
@@ -77,6 +81,7 @@ public class UsuarioController {
     }
     
  // Endpoint para actualizar un usuario
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
         try {
@@ -88,6 +93,7 @@ public class UsuarioController {
     }
     
     // Endpoint para eliminar un usuario
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id) {
         try {
