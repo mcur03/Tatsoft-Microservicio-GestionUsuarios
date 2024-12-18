@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.tatSoftGestionUsuarios.dto.UpdatePasswordRequest;
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
 import com.tatSoftGestionUsuarios.model.Usuario.Rol;
@@ -100,4 +101,28 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario con cedula " + cedula + " no encontrado"));
         return new UsuarioRespuestaDTO(usuario);
 	}
+	
+	public UsuarioRespuestaDTO findByCorreo(String correo) {
+		Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario con el correo " + correo + " no encontrado"));
+        return new UsuarioRespuestaDTO(usuario);
+	}
+	
+	
+	
+	   //Metodo para restaurar la contraseña
+	public UsuarioRespuestaDTO restablecerContraseña(UpdatePasswordRequest request) {
+	    String correo = request.getCorreo();
+	    String nuevaContraseña = request.getNuevaContraseña();
+
+	    Usuario usuarioExistente = usuarioRepository.findByCorreo(correo)
+	            .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
+
+	    usuarioExistente.setContraseña(passwordEncoder.encode(nuevaContraseña));
+
+	    usuarioRepository.save(usuarioExistente);
+
+	    return new UsuarioRespuestaDTO(usuarioExistente);
+	}
+
 }

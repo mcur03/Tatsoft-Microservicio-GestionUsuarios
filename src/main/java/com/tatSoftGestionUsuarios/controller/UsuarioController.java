@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tatSoftGestionUsuarios.dto.UpdatePasswordRequest;
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
 import com.tatSoftGestionUsuarios.service.UsuarioService;
@@ -117,4 +118,30 @@ public class UsuarioController {
             throw new RuntimeException(ex.getMessage());
         }
     }
+    
+ // Endpoint para la peticion del microservicio autenticacion para restablacer contraseña
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> obtenerPorCorreo(@PathVariable String email) {
+        try {
+            UsuarioRespuestaDTO usuario = usuarioService.findByCorreo(email);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+            }
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+    
+    // endpoint para restaurar la contraseña
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
+        try {
+            UsuarioRespuestaDTO usuarioActualizado = usuarioService.restablecerContraseña(request);
+            return ResponseEntity.ok(usuarioActualizado);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
 }
