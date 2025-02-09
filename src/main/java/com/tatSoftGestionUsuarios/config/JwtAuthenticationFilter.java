@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             	 DecodedJWT decodedJWT = JWT.decode(token); 
                 System.out.println("Decoded JWT: " + decodedJWT.toString());
 
-                String cedula = decodedJWT.getClaim("cedula").asString(); // Usualmente el userId está en el 'subject'
+                String cedula = decodedJWT.getClaim("cedula").asString(); 
                 System.out.println("cedula: " + cedula);
                 
                 String role = decodedJWT.getClaim("role").asString();

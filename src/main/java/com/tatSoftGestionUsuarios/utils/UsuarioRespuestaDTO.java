@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class UsuarioRespuestaDTO {
+	private Integer id_usuario;
     private String cedula;
     private String nombreCompleto;
     private String celular;
@@ -14,6 +15,7 @@ public class UsuarioRespuestaDTO {
     private String contraseña;
 
     public UsuarioRespuestaDTO(Usuario usuario) {
+    	this.id_usuario = usuario.getIdUsuario();
         this.cedula = usuario.getCedula();
         this.nombreCompleto = usuario.getNombreCompleto();
         this.celular = usuario.getCelular();

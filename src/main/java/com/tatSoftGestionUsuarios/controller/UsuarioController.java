@@ -143,5 +143,18 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
+    
+    @GetMapping("/id_usuario/{id_usuario}")
+    public ResponseEntity<?> getNombreUsuario(@PathVariable Integer id_usuario) {
+        try {
+            UsuarioRespuestaDTO usuario = usuarioService.obtenerPorId(id_usuario);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+            }
+            return ResponseEntity.ok(usuario.getNombreCompleto());
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
 
 }
