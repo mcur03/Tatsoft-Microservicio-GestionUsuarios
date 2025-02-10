@@ -1,0 +1,56 @@
+openapi: 3.0.1
+info:
+  title: API de Usuarios - TatSoft
+  description: API para la gestión de usuarios
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:10101
+    description: Servidor Microservicio Usuarios
+
+paths:
+  /api/usuarios:
+    post:
+      summary: Crear un usuario
+      description: Permite crear un nuevo usuario (solo ADMINISTRADOR)
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioDTO"
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+        "400":
+          description: Error en la solicitud
+        "500":
+          description: Error en el servidor
+
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuarios
+      responses:
+        "200":
+          description: Lista de usuarios obtenida exitosamente
+        "500":
+          description: Error interno en el servidor
+
+components:
+  schemas:
+    UsuarioDTO:
+      type: object
+      properties:
+        cedula:
+          type: string
+        nombreCompleto:
+          type: string
+        celular:
+          type: string
+        correo:
+          type: string
+        rol:
+          type: string

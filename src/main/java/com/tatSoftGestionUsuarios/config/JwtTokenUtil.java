@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenUtil {
 
-	private static String secretKey; // Clave secreta para firmar tokens
+	private static String secretKey; 
     private static final long EXPIRATION_TIME = 3600000; // 1 hora (en milisegundos)
 
     @Value("${jwt.secret.key}")

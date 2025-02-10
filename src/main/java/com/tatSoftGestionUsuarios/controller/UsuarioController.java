@@ -37,20 +37,24 @@ public class UsuarioController {
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping
 	public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
-        Usuario usuario = usuarioService.crearUsuario(usuarioDto);
+        try {
+        	Usuario usuario = usuarioService.crearUsuario(usuarioDto);
 
-        // Crear un mensaje de éxito con los datos del usuario
-        Map<String, Object> response = new HashMap<>();
-        response.put("mensaje", "Usuario creado exitosamente");
-        response.put("usuario", Map.of(
-                "cedula", usuario.getCedula(),
-                "nombreCompleto", usuario.getNombreCompleto(),
-                "celular", usuario.getCelular(),
-                "correo", usuario.getCorreo(),
-                "rol", usuario.getRol()
-        ));
+            // Crear un mensaje de éxito con los datos del usuario
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensaje", "Usuario creado exitosamente");
+            response.put("usuario", Map.of(
+                    "cedula", usuario.getCedula(),
+                    "nombreCompleto", usuario.getNombreCompleto(),
+                    "celular", usuario.getCelular(),
+                    "correo", usuario.getCorreo(),
+                    "rol", usuario.getRol()
+            ));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		} catch (Exception ex) {
+			throw new RuntimeException(ex.getMessage());
+		}
     }
 	
 	// Endpoint para obtener todo los usuarios
@@ -63,8 +67,8 @@ public class UsuarioController {
                 return ResponseEntity.ok(Collections.singletonMap("mensaje", "No hay usuarios registrados."));
             }
             return ResponseEntity.ok(usuarios);
-        } catch (Exception ex) {
-            throw new RuntimeException("Error al obtener los usuarios."); // Se manejará en GlobalExceptionHandler
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex.getMessage()); // Se manejará en GlobalExceptionHandler
         }
     }
     
@@ -76,7 +80,6 @@ public class UsuarioController {
             UsuarioRespuestaDTO usuario = usuarioService.obtenerPorId(id);
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException ex) {
-            // Lanzar la excepción para que sea manejada por el GlobalExceptionHandler
             throw new RuntimeException(ex.getMessage());
         }
     }

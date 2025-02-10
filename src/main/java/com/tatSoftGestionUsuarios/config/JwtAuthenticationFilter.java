@@ -1,11 +1,14 @@
 package com.tatSoftGestionUsuarios.config;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +21,14 @@ import java.util.List;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	private static String secretKey; 
+    private static final long EXPIRATION_TIME = 3600000; // 1 hora (en milisegundos)
+
+    @Value("${jwt.secret.key}")
+    public void setSecretKey(String key) {
+    	JwtAuthenticationFilter.secretKey = key;
+    }
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -25,26 +36,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            System.out.println("🛑 JWT Filter ejecutándose en: " + request.getRequestURI());
             String token = authHeader.substring(7);
 
             try {
-            	 DecodedJWT decodedJWT = JWT.decode(token); 
-                System.out.println("Decoded JWT: " + decodedJWT.toString());
+                // ✅ Verificar el token con la clave secreta
+                Algorithm algorithm = Algorithm.HMAC256(secretKey );
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(token);
 
-                String cedula = decodedJWT.getClaim("cedula").asString(); 
-                System.out.println("cedula: " + cedula);
-                
+                System.out.println("✅ Token verificado correctamente");
+                System.out.println("🔍 Token detectado: " + token);
+
+                // 📌 Extraer datos del token
+                String cedula = decodedJWT.getClaim("cedula").asString();
                 String role = decodedJWT.getClaim("role").asString();
-                System.out.println("Role: " + role);
-                
+
+                System.out.println("📌 Cedula: " + cedula);
+                System.out.println("📌 Role: " + role);
+
                 if (role != null) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(cedula, null,
-                                    List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))); 
+                                    List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
 
             } catch (JWTVerificationException e) {
+                System.out.println("❌ Error verificando el token: " + e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
