@@ -36,6 +36,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/api/usuarios").hasRole("ADMINISTRADOR") // 🔥 Asegurar que SOLO ADMIN pueda registrar
                     .requestMatchers("/api/usuarios/**").authenticated()
                     .anyRequest().authenticated()
+                    
             )
             .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint())) // Manejo de error 401
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -68,4 +69,6 @@ public class SecurityConfig {
             response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
         };
     }
+    
+    
 }
