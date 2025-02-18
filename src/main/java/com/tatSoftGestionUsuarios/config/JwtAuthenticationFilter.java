@@ -36,24 +36,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            System.out.println("🛑 JWT Filter ejecutándose en: " + request.getRequestURI());
             String token = authHeader.substring(7);
 
             try {
-                // ✅ Verificar el token con la clave secreta
+                // Verificar el token con la clave secreta
                 Algorithm algorithm = Algorithm.HMAC256(secretKey );
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
-
-                System.out.println("✅ Token verificado correctamente");
-                System.out.println("🔍 Token detectado: " + token);
-
-                // 📌 Extraer datos del token
+                
+                // Extraer datos del token
                 String cedula = decodedJWT.getClaim("cedula").asString();
                 String role = decodedJWT.getClaim("role").asString();
 
-                System.out.println("📌 Cedula: " + cedula);
-                System.out.println("📌 Role: " + role);
 
                 if (role != null) {
                     UsernamePasswordAuthenticationToken authentication =

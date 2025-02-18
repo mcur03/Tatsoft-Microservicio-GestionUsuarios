@@ -33,7 +33,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/usuarios/email/**").permitAll()
                     .requestMatchers("/api/usuarios/update-password/**").permitAll()
                     .requestMatchers("/api/usuarios/id_usuario/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/usuarios").hasRole("ADMINISTRADOR") // 🔥 Asegurar que SOLO ADMIN pueda registrar
+                    .requestMatchers(HttpMethod.POST, "/api/usuarios").hasRole("ADMINISTRADOR")
                     .requestMatchers("/api/usuarios/**").authenticated()
                     .anyRequest().authenticated()
                     
@@ -55,11 +55,9 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔹 Personaliza la respuesta de error 401 (No autorizado)
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) -> {
-        	 System.out.println("Interceptado error 401");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
 
