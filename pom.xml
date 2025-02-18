@@ -79,12 +79,14 @@
 		    <artifactId>java-jwt</artifactId>
 		    <version>4.4.0</version>
 		</dependency>
-		<dependency>
+		
+	    <!-- <dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
 		    <version>4.0.1</version>
 		    <scope>provided</scope>
-		</dependency>
+		</dependency> -->
+		
 	    <!-- Validación si usas Jakarta -->
 	   	<dependency>
 		    <groupId>jakarta.servlet</groupId>
@@ -92,6 +94,12 @@
 		    <version>5.0.0</version>
 		    <scope>provided</scope>
 		</dependency>
+		<dependency>
+    		<groupId>org.springdoc</groupId>
+    		<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    		<version>2.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
