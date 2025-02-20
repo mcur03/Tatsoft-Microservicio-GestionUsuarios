@@ -32,8 +32,8 @@ logs/
 /src/main/resources/application-*.properties
 
 # Ignorar archivos de configuración sensibles
-src/main/resources/application.properties
-src/main/resources/application.yml
+# src/main/resources/application.properties
+# src/main/resources/application.yml
 
 # Archivos de prueba
 /test-output/
