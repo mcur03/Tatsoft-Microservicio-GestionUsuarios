@@ -22,6 +22,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
