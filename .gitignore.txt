@@ -1,0 +1,48 @@
+HELP
+
+# Archivos de configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Carpetas y archivos generados por Maven o Gradle
+/target/
+build/
+*.war
+*.jar
+
+# Configuración del IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.class
+
+# Configuración de Git
+.gitignore
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de configuración de Spring Boot (credenciales sensibles)
+/application.properties
+/application.yml
+/src/main/resources/application-*.yml
+/src/main/resources/application-*.properties
+
+# Ignorar archivos de configuración sensibles
+src/main/resources/application.properties
+src/main/resources/application.yml
+
+# Archivos de prueba
+/test-output/
+
+# Archivos específicos del sistema operativo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Archivos de entorno
+.env
