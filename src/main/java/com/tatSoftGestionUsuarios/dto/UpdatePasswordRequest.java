@@ -10,5 +10,5 @@ public class UpdatePasswordRequest {
 	@Email
     private String correo;
 	@NotBlank
-    private String nuevaContraseña;
+    private String nuevaContrasena;
 }

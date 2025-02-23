@@ -12,7 +12,7 @@ public class UsuarioRespuestaDTO {
     private String celular;
     private String correo;
     private String rol;
-    private String contraseña;
+    private String contrasena;
 
     public UsuarioRespuestaDTO(Usuario usuario) {
     	this.id_usuario = usuario.getIdUsuario();
@@ -21,6 +21,6 @@ public class UsuarioRespuestaDTO {
         this.celular = usuario.getCelular();
         this.correo = usuario.getCorreo();
         this.rol = usuario.getRol().name();
-        this.contraseña = usuario.getContraseña();
+        this.contrasena = usuario.getContrasena();
     }
 }

@@ -41,7 +41,7 @@ public class UsuarioService {
         usuario.setNombreCompleto(usuarioDto.getNombreCompleto());
         usuario.setCelular(usuarioDto.getCelular());
         usuario.setCorreo(usuarioDto.getCorreo());
-        usuario.setContraseña(passwordEncoder.encode(usuarioDto.getContraseña()));
+        usuario.setContrasena(passwordEncoder.encode(usuarioDto.getContrasena()));
         usuario.setRol(Usuario.Rol.valueOf(usuarioDto.getRol().toUpperCase()));
 
         return usuarioRepository.save(usuario);
@@ -78,7 +78,7 @@ public class UsuarioService {
                 });
         usuarioExistente.setCorreo(usuarioDTO.getCorreo());
 
-        usuarioExistente.setContraseña(passwordEncoder.encode(usuarioDTO.getContraseña()));
+        usuarioExistente.setContrasena(passwordEncoder.encode(usuarioDTO.getContrasena()));
         usuarioExistente.setRol(Rol.valueOf(usuarioDTO.getRol().toUpperCase()));
 
         // Guardar cambios en la base de datos
@@ -113,12 +113,12 @@ public class UsuarioService {
 	   //Metodo para restaurar la contraseña
 	public UsuarioRespuestaDTO restablecerContraseña(UpdatePasswordRequest request) {
 	    String correo = request.getCorreo();
-	    String nuevaContraseña = request.getNuevaContraseña();
+	    String nuevaContrasena = request.getNuevaContrasena();
 
 	    Usuario usuarioExistente = usuarioRepository.findByCorreo(correo)
 	            .orElseThrow(() -> new RuntimeException("Usuario con correo " + correo + " no encontrado"));
 
-	    usuarioExistente.setContraseña(passwordEncoder.encode(nuevaContraseña));
+	    usuarioExistente.setContrasena(passwordEncoder.encode(nuevaContrasena));
 
 	    usuarioRepository.save(usuarioExistente);
 

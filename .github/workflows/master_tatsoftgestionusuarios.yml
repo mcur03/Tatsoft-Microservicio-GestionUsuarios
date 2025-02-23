@@ -26,12 +26,17 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+      
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+          maven-version: '3.9.9'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '**/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -62,5 +67,5 @@ jobs:
         with:
           app-name: 'tatSoftGestionUsuarios'
           slot-name: 'Production'
-          package: '*.jar'
+          package: '**/*.jar'
           

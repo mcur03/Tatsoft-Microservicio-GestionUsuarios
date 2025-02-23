@@ -25,7 +25,7 @@ public class UsuarioDTO {
     private String correo;
 
     @NotBlank(message = "La contraseña es obligatoria")
-    private String contraseña;
+    private String contrasena;
 
     @NotBlank(message = "El rol es obligatorio")
     private String rol;

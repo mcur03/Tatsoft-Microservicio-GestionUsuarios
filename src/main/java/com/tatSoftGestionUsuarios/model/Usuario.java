@@ -45,7 +45,8 @@ public class Usuario {
 	    private String correo;
 
 	    @NotBlank(message = "La contraseña es obligatoria")
-	    private String contraseña;
+	    @Column(name = "contrasena")
+	    private String contrasena;
 
 	    @Enumerated(EnumType.STRING)
 	    @Column(nullable = false)
