@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios
+  description: API para gestionar usuarios en la aplicación.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:10101/api
+    description: Servidor local
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /usuarios:
+    post:
+      summary: Crear un nuevo usuario
+      description: Endpoint para registrar un nuevo usuario en el sistema. Requiere autenticación.
+      security:
+        - BearerAuth: []  # 🔹 Indica que se necesita un token Bearer
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioRequest"
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsuarioResponse"
+        "400":
+          description: Error de validación (datos faltantes o incorrectos)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+        "401":
+          description: No autorizado (Token inválido o ausente)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error401"
+        "403":
+          description: Acceso prohibido (Token inválido)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error403"
+        "404":
+          description: Usuario ya registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404"
+
