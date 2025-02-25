@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Algorithm algorithm = Algorithm.HMAC256(secretKey );
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
-                
+
                 // Extraer datos del token
                 String cedula = decodedJWT.getClaim("cedula").asString();
                 String role = decodedJWT.getClaim("role").asString();
@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             } catch (JWTVerificationException e) {
-                System.out.println("❌ Error verificando el token: " + e.getMessage());
+                System.out.println("Error verificando el token: " + e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }

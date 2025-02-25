@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.tatSoftGestionUsuarios.config.JwtService;
 import com.tatSoftGestionUsuarios.dto.UpdatePasswordRequest;
 import com.tatSoftGestionUsuarios.dto.UsuarioDTO;
 import com.tatSoftGestionUsuarios.model.Usuario;
@@ -32,6 +35,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+    private JwtService jwtService;
 	
 	// Endpoint para crear un usuario
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
@@ -157,6 +163,30 @@ public class UsuarioController {
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException ex) {
             throw new RuntimeException(ex.getMessage());
+        }
+    }
+    
+    @GetMapping("/perfil")
+    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authHeader) {
+        try {
+            // Extraer el token del header (eliminar "Bearer ")
+            String token = authHeader.replace("Bearer ", "");
+            
+            // Extraer el ID del usuario del token
+            Integer userId = jwtService.extractUserId(token).intValue();
+            
+            // Consultar el usuario en la base de datos
+            UsuarioRespuestaDTO user = usuarioService.obtenerPorId(userId);
+            
+            return ResponseEntity.ok(user);
+        } catch (JWTVerificationException e) {
+            return ResponseEntity.status(401).body("Token inválido: " + e.getMessage());
+        }catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+        	System.err.println("Error inesperado: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
 
