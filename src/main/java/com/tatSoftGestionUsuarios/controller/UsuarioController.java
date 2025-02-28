@@ -153,6 +153,7 @@ public class UsuarioController {
         }
     }
     
+    // endpoint para consultar el usuario por id para otro micorservicio 
     @GetMapping("/id_usuario/{id_usuario}")
     public ResponseEntity<?> getNombreUsuario(@PathVariable Integer id_usuario) {
         try {
@@ -166,6 +167,7 @@ public class UsuarioController {
         }
     }
     
+    // Para mirar mi perfil
     @GetMapping("/perfil")
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authHeader) {
         try {
@@ -189,5 +191,7 @@ public class UsuarioController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+    
+    
 
 }
