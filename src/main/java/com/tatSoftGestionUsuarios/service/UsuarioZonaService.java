@@ -1,6 +1,7 @@
 package com.tatSoftGestionUsuarios.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,13 @@ public class UsuarioZonaService {
     @Autowired
     private RestTemplate restTemplate;
     
+    @Value("${microservicio.zonas-clientes.get-zona}")
+    private String zonaUrl;
+    
+    @Value("${microservicio.zonas-clientes.get-clientes}")
+    private String clientesUrl;
+    
+    
     @Transactional
     public Map<String, Object> asignarZonas(Integer idUsuario, List<Integer> zonas) {
         // Validar si el usuario existe
@@ -46,7 +54,7 @@ public class UsuarioZonaService {
         for (Integer idZona : zonas) {
             try {
                 ResponseEntity<Map> response = restTemplate.getForEntity(
-                    "https://backendareasandclients-apgba5dxbrbwb2ex.eastus2-01.azurewebsites.net/get_dataArea/{id}", 
+                    zonaUrl + "/{id_area}", 
                     Map.class, 
                     idZona
                 );
@@ -107,7 +115,7 @@ public class UsuarioZonaService {
         for (Integer idZona : zonasIds) {
             try {
                 ResponseEntity<Map> response = restTemplate.getForEntity(
-                    "https://backendareasandclients-apgba5dxbrbwb2ex.eastus2-01.azurewebsites.net/get_dataArea/{id}",
+                	zonaUrl + "/{id_area}",
                     Map.class,
                     idZona
                 );
@@ -153,7 +161,7 @@ public class UsuarioZonaService {
         try {
             // Primero verificamos que la zona existe
             ResponseEntity<Map> zonaResponse = restTemplate.getForEntity(
-                "https://backendareasandclients-apgba5dxbrbwb2ex.eastus2-01.azurewebsites.net/get_dataArea/{id_area}",
+            	zonaUrl + "/{id_area}",
                 Map.class,
                 idZona
             );
@@ -164,7 +172,7 @@ public class UsuarioZonaService {
             
             // Ahora obtenemos los clientes de esa zona
             ResponseEntity<List<Map<String, Object>>> clientesResponse = restTemplate.exchange(
-            	    "https://backendareasandclients-apgba5dxbrbwb2ex.eastus2-01.azurewebsites.net/get_clientArea/{idZona}",
+            		clientesUrl + "/{idZona}",
             	    org.springframework.http.HttpMethod.GET, 
             	    null,
             	    new ParameterizedTypeReference<List<Map<String, Object>>>() {},
