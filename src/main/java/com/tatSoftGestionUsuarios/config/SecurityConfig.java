@@ -57,15 +57,17 @@ public class SecurityConfig {
             "http://localhost:5173",  // Local development frontend
             "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"  // Your production frontend
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowedHeaders(Arrays.asList(
             "Authorization", 
             "Content-Type", 
             "X-Requested-With", 
             "Accept", 
-            "Origin"
+            "Origin",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers"
         ));
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);  // Important for cookies/authentication
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
