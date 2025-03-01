@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class UsuarioController {
     private JwtService jwtService;
 	
 	// Endpoint para crear un usuario
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping
 	public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDto) {
@@ -79,6 +81,7 @@ public class UsuarioController {
     }
     
  // Endpoint para buscar usuario por id
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
@@ -91,6 +94,7 @@ public class UsuarioController {
     }
     
  // Endpoint para actualizar un usuario
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
@@ -103,6 +107,7 @@ public class UsuarioController {
     }
     
     // Endpoint para eliminar un usuario
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id) {
@@ -115,6 +120,7 @@ public class UsuarioController {
     }
     
     // Endpoint para la peticion del microservicio autenticacion
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/cedula/{cedula}")
     public ResponseEntity<?> obtenerPorCedula(@PathVariable String cedula) {
         try {
@@ -129,6 +135,7 @@ public class UsuarioController {
     }
     
  // Endpoint para la peticion del microservicio autenticacion para restablacer contraseña
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/email/{email}")
     public ResponseEntity<?> obtenerPorCorreo(@PathVariable String email) {
         try {
@@ -143,6 +150,7 @@ public class UsuarioController {
     }
     
     // endpoint para restaurar la contraseña
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @PutMapping("/update-password")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
         try {
@@ -154,6 +162,7 @@ public class UsuarioController {
     }
     
     // endpoint para consultar el usuario por id para otro micorservicio 
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/id_usuario/{id_usuario}")
     public ResponseEntity<?> getNombreUsuario(@PathVariable Integer id_usuario) {
         try {
@@ -168,6 +177,7 @@ public class UsuarioController {
     }
     
     // Para mirar mi perfil
+	@CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/perfil")
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authHeader) {
         try {

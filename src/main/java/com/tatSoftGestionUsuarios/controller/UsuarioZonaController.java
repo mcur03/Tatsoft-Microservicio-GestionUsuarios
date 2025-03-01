@@ -28,6 +28,7 @@ public class UsuarioZonaController {
     @Autowired
     private JwtService jwtService;
 
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping("/asignar-zonas/{id_usuario}")
     public ResponseEntity<?> asignarZonasAUsuario(@PathVariable Integer id_usuario, 
@@ -52,6 +53,7 @@ public class UsuarioZonaController {
     }
     
     
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/zonas/{id_usuario}")
     public ResponseEntity<?> obtenerZonasUsuarioAdmin(@PathVariable Integer id_usuario) {
@@ -68,6 +70,7 @@ public class UsuarioZonaController {
     }
 
     // Endpoint para colaboradores - solo pueden ver sus propias zonas
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/mis-zonas")
     public ResponseEntity<?> obtenerMisZonas(@RequestHeader("Authorization") String authHeader) {
         try {
@@ -91,6 +94,7 @@ public class UsuarioZonaController {
     }
 
     // Endpoint  ver clientes de las zonas asignadas
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @GetMapping("/getclientes-zonas/{id_zona}")
     public ResponseEntity<?> obtenerClientesZonaColaborador(
             @PathVariable Integer id_zona,
@@ -121,6 +125,7 @@ public class UsuarioZonaController {
     
     
     // Endpoint para que un administrador elimine una zona específica de un usuario
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/eliminar-zona/{id_usuario}/{id_zona}")
     public ResponseEntity<?> eliminarZonaDeUsuario(
@@ -140,6 +145,7 @@ public class UsuarioZonaController {
 
   
      //Endpoint para que un administrador elimine todas las zonas asignadas a un usuario
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"})
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/eliminar-zonas/{id_usuario}")
     public ResponseEntity<?> eliminarTodasZonasDeUsuario(@PathVariable Integer id_usuario) {

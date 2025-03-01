@@ -53,19 +53,20 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Aquí especificas exactamente desde dónde se pueden hacer solicitudes a tu API
         configuration.setAllowedOrigins(Arrays.asList(
-            "http://localhost:5173",  // Tu frontend en desarrollo
-            "https://ambitious-sky-070d67b0f.4.azurestaticapps.net/"  // Si tienes una URL de producción
+            "http://localhost:5173",  // Local development frontend
+            "https://ambitious-sky-070d67b0f.4.azurestaticapps.net"  // Your production frontend
         ));
-        configuration.setAllowedOrigins(Arrays.asList("*")); // En producción, especifica dominios exactos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setAllowedHeaders(Arrays.asList(
+            "Authorization", 
+            "Content-Type", 
+            "X-Requested-With", 
+            "Accept", 
+            "Origin"
+        ));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
-        // Si necesitas enviar cookies o autenticación:
-        // configuration.setAllowCredentials(true);
-     // Importante para autenticación con cookies/tokens
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true);  // Important for cookies/authentication
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
